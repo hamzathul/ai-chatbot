@@ -3,3 +3,8 @@ backend/node_modules/
 backend/.env
 
 backend/dist/
+
+**node_modules
+**.env
+**package-lock.json
+**dist
