@@ -8,3 +8,6 @@ backend/dist/
 **.env
 **package-lock.json
 **dist
+.vscode/*
+**/.vscode/
+
