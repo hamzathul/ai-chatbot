@@ -6,8 +6,8 @@ import {toast} from 'react-hot-toast'
 import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
+  const auth = useAuth();
   const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
-    const auth = useAuth()
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string; // it will work on the basis of name that we given on the form
