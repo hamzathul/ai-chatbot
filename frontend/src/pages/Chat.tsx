@@ -1,12 +1,11 @@
 import React from "react";
-import { Box, Avatar, Typography, Button } from "@mui/material";
+import { Box, Avatar, Typography, Button,IconButton } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import red from "@mui/material/colors/red";
-const chatMessages = [
-  {
-    role: "system",
-    content: "You are a helpful and knowledgeable assistant.",
-  },
+import ChatItem from "../components/chat/ChatItem";
+import { IoMdSend } from "react-icons/io";
+
+const chatMessages: { role: "user" | "assistant"; content: string }[] = [
   {
     role: "user",
     content: "Can you help me find a good Italian restaurant nearby?",
@@ -91,7 +90,6 @@ const chatMessages = [
   },
 ];
 
-
 function Chat() {
   const auth = useAuth();
   return (
@@ -168,11 +166,17 @@ function Chat() {
         <Box
           sx={{
             display: "flex",
-            flex: { md: 0.8, xs: 1, sm: 1, flexDirection:'column', px:3 },
+            flex: { md: 0.8, xs: 1, sm: 1, flexDirection: "column", px: 3 },
           }}
         >
           <Typography
-            sx={{ fontSize: "40px", color: "white", mb: 2, mx: "auto", fontWeight:'600' }}
+            sx={{
+              fontSize: "40px",
+              color: "white",
+              mb: 2,
+              mx: "auto",
+              fontWeight: "600",
+            }}
           >
             Model - GPT 4o
           </Typography>
@@ -183,13 +187,41 @@ function Chat() {
               borderRadius: 3,
               mx: "auto",
               display: "flex",
-              flexDirection:'column',
-              overflow:'scroll',
-              overflowX:'hidden',
-              overflowY:'auto',
-              scrollBehavior:'smooth'
+              flexDirection: "column",
+              overflow: "scroll",
+              overflowX: "hidden",
+              overflowY: "auto",
+              scrollBehavior: "smooth",
             }}
-          >{chatMessages.map((chat)=><div>{chat.content}</div>)}</Box>
+          >
+            {chatMessages.map((chat, index) => (
+              <ChatItem content={chat.content} role={chat.role} key={index} />
+            ))}
+          </Box>
+          <div
+            style={{
+              width: "100%",
+              padding: "20px",
+              borderRadius: 8,
+              backgroundColor: "rgb(17,27,39)",
+              display:'flex',
+              margin:'auto'
+            }}
+          >
+            <input
+              type="text"
+              style={{
+                width: "100%",
+                backgroundColor: "transparent",
+                padding: "10px",
+                border: "none",
+                outline: "none",
+                color: "white",
+                fontSize: "20px",
+              }}
+            />
+            <IconButton sx={{ml:'auto', color:'white'}}><IoMdSend/></IconButton>
+          </div>
         </Box>
       </Box>
     </>
