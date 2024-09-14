@@ -9,7 +9,6 @@ export const generateChatCompletion = async (
   next: NextFunction
 ) => {
   const { message } = req.body;
-
   try {
     const user = await User.findById(res.locals.jwtData.id);
     if (!user)
@@ -37,7 +36,9 @@ export const generateChatCompletion = async (
     return res.status(200).json({ chats: user.chats });
     
   } catch (error) {
+    // console.log('Error started ....................................xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
     console.log(error)
+    // console.log('You are here ..........................******************************debug')
     return res.status(500).json({ message: "Something went wrong" });
     
   }
