@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import User from "../models/User.js";
-import { configureOpenAI } from "../config/openai-config.js";
-import {OpenAIApi,ChatCompletionRequestMessage} from 'openai'
+import G4FModule from "g4f";
+
+// Extract the G4F class from the default export
+const { G4F } = G4FModule;
 
 export const generateChatCompletion = async (
   req: Request,
@@ -9,39 +11,59 @@ export const generateChatCompletion = async (
   next: NextFunction
 ) => {
   const { message } = req.body;
+
+  console.log("Message received from request:", message);
+
   try {
     const user = await User.findById(res.locals.jwtData.id);
-    if (!user)
+    console.log("User fetched from database:", user);
+
+    if (!user) {
       return res
         .status(401)
         .json({ message: "User not registered OR Token malfunctioned" });
+    }
 
-    //grab chats of user
-    const chats = user.chats.map(({ role, content }) => ({
-      role,
-      content,
-    })) as ChatCompletionRequestMessage[]; // it will be an array
-    chats.push({ content: message, role: "user" });
+    // Validate and clean up chats
+    const validChats = user.chats
+      .filter((chat) => chat.content && chat.role) // Ensure content and role are present
+      .map(({ role, content }) => ({
+        role,
+        content,
+      }));
+
+    console.log("Valid chats sent to G4F:", validChats);
+
+    // Add new message from user
+    validChats.push({ content: message, role: "user" });
     user.chats.push({ content: message, role: "user" });
-    //send all chats with new one to openAI API
-    const config = configureOpenAI();
-    const openai = new OpenAIApi(config);
-    //get latest response
-    const chatResponse = await openai.createChatCompletion({
-      model: "gpt-4o-mini",
-      messages: chats,
-    });
-    user.chats.push(chatResponse.data.choices[0].message);
-    await user.save();
-    return res.status(200).json({ chats: user.chats });
-    
-  } catch (error) {
-    // console.log('Error started ....................................xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-    console.log(error)
-    // console.log('You are here ..........................******************************debug')
-    return res.status(500).json({ message: "Something went wrong" });
-    
-  }
 
-  
+    // Instantiate G4F class
+    const g4f = new G4F();
+
+    // Call chatCompletion method
+    let chatResponse = await g4f.chatCompletion(validChats);
+    console.log("G4F chatCompletion response:", chatResponse);
+
+    // If chatResponse is a string, wrap it into the expected object
+    if (typeof chatResponse === "string") {
+      chatResponse = [{ role: "assistant", content: chatResponse }];
+    }
+
+    // Check if the response has valid content and role
+    if (!chatResponse[0]?.content || !chatResponse[0]?.role) {
+      console.error("Invalid response format from G4F:", chatResponse[0]);
+      return res.status(500).json({ message: "Invalid response from G4F" });
+    }
+
+    // Push the AI's response to user chats and save the user document
+    user.chats.push(chatResponse[0]);
+    await user.save();
+
+    console.log("User document saved successfully.");
+    return res.status(200).json({ chats: user.chats });
+  } catch (error) {
+    console.error("Error occurred:", error);
+    return res.status(500).json({ message: "Something went wrong" });
+  }
 };
