@@ -15,14 +15,20 @@ const Signup = () => {
     const name = formData.get("name") as string;
     const email = formData.get("email") as string; // it will work on the basis of name that we given on the form
     const password = formData.get("password") as string;
-    try {
-      toast.loading("Signing Up...", { id: "signup" });
-      await auth?.signup(name, email, password);
-      toast.success("Signed Up Successfully", { id: "signup" });
-    } catch (error) {
-      console.log(error);
-      toast.error("Sign Up Failed!", { id: "signup" });
-    }
+   try {
+     toast.loading("Signing Up...", { id: "signup" });
+     await auth?.signup(name, email, password);
+     toast.success("Signed Up Successfully", { id: "signup" });
+   } catch (error: any) {
+     console.log("Error details:", error);
+
+     // Check for specific HTTP status codes
+     if (error.response && error.response.status === 401) {
+       toast.error("User already registered", { id: "signup" });
+     } else {
+       toast.error("Sign Up Failed!", { id: "signup" });
+     }
+   }
   };
 
   useEffect(() => {

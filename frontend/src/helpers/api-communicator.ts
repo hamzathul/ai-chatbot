@@ -17,17 +17,30 @@ export const signupUser = async (
   email: string,
   password: string
 ) => {
-  const res = await axios.post("/user/signup", {
-    name,
-    email,
-    password,
-  });
-  if (res.status !== 201) {
-    throw new Error("Unable to Signup");
+  try {
+    const res = await axios.post("/user/signup", {
+      name,
+      email,
+      password,
+    });
+
+    // Check for successful signup
+    if (res.status === 201) {
+      return res.data; // Return the response data for successful signup
+    }
+  } catch (error) {
+    // Ensure error has a response property
+    if (axios.isAxiosError(error) && error.response) {
+      // Forward the specific error response
+      throw error;
+    } else {
+      // Forward a generic error if it's not an Axios error
+      throw new Error("Unable to Signup");
+    }
   }
-  const data = await res.data;
-  return data;
 };
+
+
 
 export const checkAuthStatus = async () => {
   const res = await axios.get("/user/auth-status");
