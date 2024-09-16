@@ -1,3 +1,6 @@
+// Only needed if you are working with openai API
+
+
 import { Configuration } from "openai";
 
 export const configureOpenAI = () => {

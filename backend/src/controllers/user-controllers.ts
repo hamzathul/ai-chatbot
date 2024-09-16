@@ -47,11 +47,11 @@ export const userSignup = async (
     const expires = new Date();
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
-      path: "/",
+      path: "/", //The cookie is valid for the entire domain.
       domain: "localhost",
       expires,
-      httpOnly: true,
-      signed: true,
+      httpOnly: true, //The cookie is inaccessible to JavaScript running in the browser (security feature to prevent XSS attacks).
+      signed: true, //The cookie is signed with a secret key to ensure it is tamper-proof.
     });
 
     return res

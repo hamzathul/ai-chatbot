@@ -1,5 +1,5 @@
 import app from "./app.js";
-import { connectToDatabase } from "./db/connection.js";
+import { connectToDatabase, disconnectFromDatabase } from "./db/connection.js";
 
 const PORT = process.env.PORT || 5001;
 
@@ -18,6 +18,9 @@ connectToDatabase()
         process.exit(1);
       } else {
         console.error("Server error:", err);
+        disconnectFromDatabase().then(()=>{
+          console.log('Something Went wrong... so that disconnected from database')
+        })
       }
     });
   })

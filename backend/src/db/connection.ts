@@ -12,10 +12,10 @@ async function connectToDatabase(){
 
 async function disconnectFromDatabase() {
     try {
-        await disconnect
+        await disconnect()
     } catch (error) {
         console.log(error)
-        throw new Error("Cannot connect to MONGODB database")
+        throw new Error("Cannot disconnect from MONGODB database")
     }
 }
 

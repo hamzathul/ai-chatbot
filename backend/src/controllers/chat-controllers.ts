@@ -16,7 +16,7 @@ export const generateChatCompletion = async (
 
   try {
     const user = await User.findById(res.locals.jwtData.id);
-    console.log("User fetched from database:", user);
+    // console.log("User fetched from database:", user);
 
     if (!user) {
       return res
