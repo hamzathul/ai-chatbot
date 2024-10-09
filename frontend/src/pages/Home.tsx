@@ -34,7 +34,7 @@ function Home() {
         }}
       >
         <img
-          src="robot.png"
+          src="botty.png"
           alt="robot"
           style={{ width: "200px", margin: "auto" }}
         />
@@ -42,7 +42,7 @@ function Home() {
           className="image-inverted rotate"
           src="openai.png"
           alt="openai"
-          style={{ width: "200px", margin: "auto" }}
+          style={{ width: "130px", margin: "auto" }}
         />
       </Box>
       <Box
