@@ -30,7 +30,7 @@ const Signup = () => {
      if (error.response && error.response.status === 401) {
        toast.error("User already registered", { id: "signup" });
      } else {
-       toast.error("Sign Up Failed!", { id: "signup" });
+       toast.error("Sign Up Failed! Please provide valid information", { id: "signup" });
      }
    }
   };
