@@ -15,6 +15,10 @@ const Signup = () => {
     const name = formData.get("name") as string;
     const email = formData.get("email") as string; // it will work on the basis of name that we given on the form
     const password = formData.get("password") as string;
+    if(password.length<6){
+      toast.error("Password contain atleast 6 characters")
+      return
+    }
    try {
      toast.loading("Signing Up...", { id: "signup" });
      await auth?.signup(name, email, password);
