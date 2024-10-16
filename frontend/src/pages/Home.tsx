@@ -1,12 +1,11 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
-import React from "react";
 import TypingAnim from "../components/typer/TypingAnim";
 import Footer from "../components/footer/Footer";
 
 function Home() {
   const theme = useTheme();
   const isBelowMd = useMediaQuery(theme.breakpoints.down("md"));
-  const isBelowSm = useMediaQuery(theme.breakpoints.down("sm"));
+  // const isBelowSm = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Box width={"100%"} height={"100%"}>

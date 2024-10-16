@@ -1,12 +1,12 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Box, Avatar, Typography, Button, IconButton } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import red from "@mui/material/colors/red";
 import ChatItem from "../components/chat/ChatItem";
 import { IoMdSend } from "react-icons/io";
 import { deleteUserChats, getUserChats, sendChatRequest } from "../helpers/api-communicator";
-import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
-import { coldarkCold } from "react-syntax-highlighter/dist/esm/styles/prism";
+// import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
+// import { coldarkCold } from "react-syntax-highlighter/dist/esm/styles/prism";
 import toast from "react-hot-toast";
 import {useNavigate} from 'react-router-dom'
 
