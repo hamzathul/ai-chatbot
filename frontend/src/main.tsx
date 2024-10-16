@@ -1,27 +1,37 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
-import { createTheme, ThemeProvider } from '@mui/material'
-import {BrowserRouter } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext.tsx'
-import axios from 'axios'
-import {Toaster} from 'react-hot-toast'
-axios.defaults.baseURL = 'http://localhost:5000/api/v1'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.tsx";
+import "./index.css";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext.tsx";
+import axios from "axios";
+import { Toaster } from "react-hot-toast";
+
+const clientURL =
+  import.meta.env.VITE_NODE_ENV === "development"
+    ? "http://localhost:5000/api/v1"
+    : "https://ai-chatbot-zq3j.onrender.com/api/v1";
+
+axios.defaults.baseURL = clientURL;
 axios.defaults.withCredentials = true; //helps with cookies in the backend
 
+const theme = createTheme({
+  typography: {
+    fontFamily: "Roboto Slab,serif",
+    allVariants: { color: "white" },
+  },
+});
 
-const theme = createTheme({typography:{fontFamily:"Roboto Slab,serif",allVariants:{color:"white"}}})
-
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthProvider>
-    <BrowserRouter>
-    <ThemeProvider theme={theme}>
-      <Toaster position='top-right'/>
-    <App />
-    </ThemeProvider>
-    </BrowserRouter>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <Toaster position="top-right" />
+          <App />
+        </ThemeProvider>
+      </BrowserRouter>
     </AuthProvider>
-  </StrictMode>,
-)
+  </StrictMode>
+);
