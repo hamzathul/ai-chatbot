@@ -37,7 +37,7 @@ export const userSignup = async (
 
     //create token and store cookie
     res.clearCookie(COOKIE_NAME, {
-      domain: "localhost",
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       signed: true,
       path: "/",
