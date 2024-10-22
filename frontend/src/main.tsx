@@ -9,7 +9,7 @@ import axios from "axios";
 import { Toaster } from "react-hot-toast";
 
 const clientURL =
-  import.meta.env.VITE_NODE_ENV === "development"
+  import.meta.env.MODE === "development"
     ? "http://localhost:5000/api/v1"
     : "https://ai-chatbot-zq3j.onrender.com/api/v1";
 
