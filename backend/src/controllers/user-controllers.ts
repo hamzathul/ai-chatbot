@@ -92,10 +92,13 @@ export const userLogin = async (
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "localhost",
+      // domain: "localhost", //////////////////////////////////commented
+      domain: "https://ai-chatbot-frontend-0j3f.onrender.com", ///////////////////added
       expires,
+      secure: process.env.NODE_ENV === "production", //////////////added
       httpOnly: true,
       signed: true,
+      sameSite:"strict"           /////////////////////added
     });
 
     return res
