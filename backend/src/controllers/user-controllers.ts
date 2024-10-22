@@ -98,7 +98,7 @@ export const userLogin = async (
       secure: process.env.NODE_ENV === "production", //////////////added
       httpOnly: true,
       signed: true,
-      sameSite:"strict"           /////////////////////added
+      sameSite:"none"
     });
 
     return res
