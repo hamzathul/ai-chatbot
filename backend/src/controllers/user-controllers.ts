@@ -37,7 +37,6 @@ export const userSignup = async (
 
     //create token and store cookie
     res.clearCookie(COOKIE_NAME, {
-      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       signed: true,
       path: "/",
@@ -47,11 +46,12 @@ export const userSignup = async (
     const expires = new Date();
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
-      path: "/", //The cookie is valid for the entire domain.
-      domain: "localhost", 
+      path: "/",
       expires,
-      httpOnly: true, //The cookie is inaccessible to JavaScript running in the browser (security feature to prevent XSS attacks).
-      signed: true, //The cookie is signed with a secret key to ensure it is tamper-proof.
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      signed: true,
+      sameSite: "none", 
     });
 
     return res
@@ -81,7 +81,6 @@ export const userLogin = async (
     }
 
     res.clearCookie(COOKIE_NAME, {
-      domain: "localhost",
       httpOnly: true,
       signed: true,
       path: "/",
@@ -92,9 +91,8 @@ export const userLogin = async (
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      // domain: "localhost", //////////////////////////////////commented
       expires,
-      secure: process.env.NODE_ENV === "production", //////////////added
+      secure: process.env.NODE_ENV === "production", 
       httpOnly: true,
       signed: true,
       sameSite:"none"
@@ -152,7 +150,6 @@ export const userLogout = async (
     }
 
     res.clearCookie(COOKIE_NAME, {
-      domain: "localhost",
       httpOnly: true,
       signed: true,
       path: "/",
